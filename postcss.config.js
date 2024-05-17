@@ -1,7 +1,7 @@
-/** @type {import('postcss-load-config').Config} */
-const config = {
+
+module.exports = {
   plugins: {
-    "tailwindcss/nesting": {},
+    "postcss-import":{},
     "tailwindcss/nesting": {},
     "postcss-nesting": {},
     tailwindcss: {},
@@ -9,5 +9,3 @@ const config = {
     cssnano: {}
   },
 };
-
-export default config;

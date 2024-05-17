@@ -9,11 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
     "@types/prettier": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "autoprefixer": "^10.4.19",
+    "axios": "^1.6.8",
     "cssnano": "^7.0.1",
     "eslint-config-prettier": "^9.1.0",
+    "jwt-decode": "^4.0.0",
     "next": "14.2.3",
     "postcss-nesting": "^12.1.4",
     "prettier": "^3.2.5",

@@ -1,6 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
 
 :root {
   --foreground-rgb: 0, 0, 0;
@@ -29,5 +31,14 @@ body {
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+}
+
+@layer components {
+  .focusRing {
+    @apply focus:border-2 focus:border-hoverOrange focus:bg-transparent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-hoverOrange;
+  }
+  .errorRing {
+    @apply focus:border-2 focus:border-warning focus:bg-transparent focus:outline-none focus:ring-1 focus:ring-warning ;
   }
 }
