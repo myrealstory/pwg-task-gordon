@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-    baseURL: "https://api-for-testing-gujp.onrender.com/api/posts",
+    baseURL: "https://api-for-testing-gujp.onrender.com/api/accounts",
     headers:{
         "Content-Type": "application/json",
     },
@@ -18,6 +18,6 @@ instance.interceptors.request.use (
     error => {
         return Promise.reject(error);
     }
-)
+);
 
 export default instance;

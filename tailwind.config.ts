@@ -8,8 +8,8 @@ module.exports = {
   ],
   theme: {
     colors:{
-      grey: "#b1b1b1",
-      primaryGrey: "#EEEEEE",
+      grey: "#DDDDDD",
+      primaryGrey: "#DDDDDD",
       primaryYellow:"#F8B959",
       warning:"#F95A50",
       red:"#E6a5a1",

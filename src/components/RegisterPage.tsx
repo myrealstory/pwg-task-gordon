@@ -70,19 +70,19 @@ export const RegisterPage = () => {
 
     const validateForm = (name: string , value: string) => {
         if(name === "email" && !value){
-            setFormError({...formError, "email": true, emailErrorMessage: `Email is required`});
+            setFormError({...formError, "email": true, emailErrorMessage: "Email is required"});
         }
         if(name === "password" && !value){
-            setFormError({...formError, "password": true, passwordErrorMessage: `Password is required`});
+            setFormError({...formError, "password": true, passwordErrorMessage: "Password is required"});
         }
         
         if(name === "username" && !value){
-            setFormError({...formError, "username": true, usernameErrorMessage: `Username is required`});
+            setFormError({...formError, "username": true, usernameErrorMessage: "Username is required"});
         }
         
         if(name === "role" && value.length === 0){
             setFormError({...formError, "role": true,
-            roleErrorMessage: `Role is required`
+            roleErrorMessage: "Role is required"
             });
 
         }
@@ -161,7 +161,7 @@ export const RegisterPage = () => {
     
 
     return (
-        <div className="w-full md:max-w-[500px] min-w-[330px] flex flex-col justify-center items-center bg-white rounded-3xl p-10">
+        <div className="w-full md:max-w-[500px] min-w-[330px] flex flex-col justify-center items-center bg-white rounded-3xl p-10 mx-4">
             <h4 className=" text-center text-3xl mb-16">Register User</h4>
             <form className="w-[90%] mb-4">
                 <div className="flex flex-col items-center justify-center gap-7 mb-6 w-full">

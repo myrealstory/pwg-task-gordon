@@ -42,11 +42,11 @@ export const LoginPage = () => {
 
     const validateForm = (name: string , value: string) => {
         if(name === "email" && !value){
-            setFormError({...formError, "email": true, emailErrorMessage: `Email is required`});
+            setFormError({...formError, "email": true, emailErrorMessage: "Email is required"});
             return false;
         }
         if(name === "password" && !value){
-            setFormError({...formError, "password": true, passwordErrorMessage: `Password is required`});
+            setFormError({...formError, "password": true, passwordErrorMessage: "Password is required"});
             return false;
         }
 
@@ -78,10 +78,6 @@ export const LoginPage = () => {
         const isPasswordValid = validateForm("password", formValue.password);
         if(isEmailValid && isPasswordValid){
             try{
-                const payload = {
-                    email: formValue.email,
-                    password: formValue.password,
-                }
                 const response = await axios.post("/login", formValue);
                 if(response.status === 200){
                     localStorage.setItem("token", response.data.token);
@@ -99,7 +95,7 @@ export const LoginPage = () => {
 
 
     return (
-        <div className="bg-white w-full md:max-w-[500px] min-w-[300px] flex justify-center items-center flex-col rounded-3xl p-10 ">
+        <div className="bg-white w-full md:max-w-[500px] min-w-[300px] flex justify-center items-center flex-col rounded-3xl p-10 mx-4">
             <h4 className=" text-center text-3xl mb-16">Login Page</h4>
             <form className="w-[80%] mb-4">
                 <div className="flex flex-col items-center justify-center gap-7 mb-6 w-full">

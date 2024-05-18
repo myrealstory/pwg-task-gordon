@@ -18,19 +18,12 @@
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
-
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  body {
+    @apply h-full text-[16px] bg-primaryGrey relative;
   }
 }
 
@@ -40,5 +33,16 @@ body {
   }
   .errorRing {
     @apply focus:border-2 focus:border-warning focus:bg-transparent focus:outline-none focus:ring-1 focus:ring-warning ;
+  }
+  .multiline-truncate {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 8em; /* Adjust based on your line height */
+    line-height: 1.5em; /* Ensure it matches the line height */
+    word-break:break-all;/* Break long words and wrap them to the next line */
+    hyphens: auto;/* Insert hyphens at appropriate break points */
   }
 }
