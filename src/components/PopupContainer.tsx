@@ -207,7 +207,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
     if(modModal.show === true && modModal.type === "delete" && currentData) {
         return (
             <div className="fixed top-0 left-0 w-full h-full bg-blurBG z-50 flex justify-center items-center">
-                <div className="bg-white px-16 py-8 rounded-lg flex flex-col justify-center items-center gap-5">
+                <div className="bg-white px-16 py-8 rounded-lg flex flex-col justify-center items-center gap-5 lg:max-w-[500px] max-w-[400px] w-full text-center">
                     <p className="text-warning text-lg ">{currentData.title}</p>
                     <p className="text-black text-lg ">{"Are you sure you want to delete this post ?"}</p>
                     <div className=" flex gap-6 ">
@@ -232,7 +232,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
     if(modModal.show ===true && ((modModal.type === "edit" && currentData)|| modModal.type === "add")) {
         return (
             <div className="fixed top-0 left-0 w-full h-full bg-blurBG z-50 flex justify-center items-center">
-                <div className="bg-white lg:p-16 p-8 rounded-lg flex flex-col justify-center items-center gap-5 w-full lg:max-w-[500px] max-w-[330px]">
+                <div className="bg-white lg:p-16 p-8 rounded-lg flex flex-col justify-center items-center gap-5 w-full lg:max-w-[500px] max-w-[400px]">
                     <p className="text-black lg:text-[1.3rem] text-[1rem]">{modModal.type === "add" ? "Add A Post":"Edit Post"}</p>
                     <div className="w-full">
                         <HeaderInline labelName={"Title"} />

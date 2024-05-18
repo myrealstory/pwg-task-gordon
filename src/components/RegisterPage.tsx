@@ -234,7 +234,7 @@ export const RegisterPage = () => {
                 </button>
             </form>
             <button
-                className="text-primaryYellow w-[70%] mx-auto bg-transparent p-2 text-center text-xl"
+                className="text-primaryYellow md:w-[70%]  mx-auto bg-transparent p-2 text-center text-xl"
                 onClick={() => window.location.href = "/"}
             >
                 Back to Login Page

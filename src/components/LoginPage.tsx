@@ -141,7 +141,7 @@ export const LoginPage = () => {
             </form>
             <button
                 type="button"
-                className="text-primaryYellow w-[70%] mx-auto bg-transparent p-2 text-center text-xl"
+                className="text-primaryYellow md:w-[70%] mx-auto bg-transparent p-2 text-center text-xl"
                 onClick={() => window.location.href = "/register"}
             >Create an account</button>
             {showModal && (

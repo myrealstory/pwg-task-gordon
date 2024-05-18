@@ -8,8 +8,8 @@ import { PopupContainer } from "./PopupContainer";
 
 const AdminDashBox = ({amount, title, containerStyle }:{amount:number, title:string, containerStyle?:string}) =>{
     return (
-        <div className={`flex flex-col items-center justify-center  rounded-xl py-5 w-full ${containerStyle}`}>
-            <p className="text-black text-lg mb-5">{title}</p>
+        <div className={`flex flex-col items-center justify-center rounded-xl md:py-5 py-3 w-full ${containerStyle}`}>
+            <p className="text-black md:text-lg text-md mb-5">{title}</p>
             <p className="text-[2rem] text-black font-medium text-center mb-2">{amount}</p>
         </div>
     );
@@ -86,7 +86,7 @@ const HomePage: React.FC<WrappedComponentProps> = ({
                 Post List
             </h4>
             {adminMode === true && (
-                <div className="flex lg:gap-16 md:gap-10 gap-8 w-full mb-16">
+                <div className="flex lg:gap-16 md:gap-10 sm:gap-8 gap-4 w-full md:mb-16 mb-6">
                     <AdminDashBox 
                         title={"Total Amount"} 
                         amount={totalAccounts ?? 0}
