@@ -141,19 +141,19 @@ const HomePage: React.FC<WrappedComponentProps> = ({
                                 Delete
                             </button>
                         </div>
-                        {(modal.show || modModal.show) && data.data !== null && 
-                        <PopupContainer
-                            modModal={modModal}
-                            modal={modal}
-                            triggerModal={triggerModal}
-                            data={data.data}
-                        /> 
-                        }
                     </div>
                 ))}
 
             </div>
             {PaginationBox()}
+            {(modal.show === true || modModal.show === true) && 
+                <PopupContainer
+                    modModal={modModal}
+                    modal={modal}
+                    triggerModal={triggerModal}
+                    data={data.data ?? []}
+                /> 
+            }
             
         </div>
     );

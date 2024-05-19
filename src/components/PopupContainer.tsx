@@ -30,47 +30,50 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
     // input handling function
     const handleInput = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const {name, value} = e.target;
-        setFormValue({...formValue, [name]: value});
+        setFormValue(prev => ({...prev, [name]: value}));
+        onBlurValidation(name,value);
     }
 
     // onBlur Input validation function
     const onBlurValidation = (name: string, value: string) => {
-        if(name === "title"){
-            if(!value){
-                setFormError({...formError, title: true, titleErrorMessage: "Title is required"});
-                return false;
+        let isValid = true;
+
+        if (name === "title") {
+            if (value.length === 0) {
+                setFormError(prev => ({ ...prev, title: true, titleErrorMessage: "Title is required" }));
+                isValid = false;
             } else {
-                setFormError({...formError, title: false, titleErrorMessage: ""});
+                setFormError(prev => ({ ...prev, title: false, titleErrorMessage: "" }));
             }
         }
 
-        if(name === "body"){
-            if(!value){
-                setFormError({...formError, body: true, bodyErrorMessage: "Body is required"});
-                return false;
-            }else {
-                setFormError({...formError, body: false, bodyErrorMessage: ""});
+        if (name === "body") {
+            if (value.length === 0) {
+                setFormError(prev => ({ ...prev, body: true, bodyErrorMessage: "Body is required" }));
+                isValid = false;
+            } else {
+                setFormError(prev => ({ ...prev, body: false, bodyErrorMessage: "" }));
             }
         }
-        
-        return true;
-    }
+
+        return isValid;
+    };
 
     const handleSelectBlur = (option :string) => {
         if(option !== "") tagsAmount.current += 1; 
 
         if(tagsAmount.current > 3){
             tagsAmount.current -= 1;
-            setFormError({...formError, tags: true, tagsErrorMessage: "You can only select 3 tags"});
+            setFormError(prev => ({...prev, tags: true, tagsErrorMessage: "You can only select 3 tags"}));
             return false;
         }
 
         if(option === ""){
             if(selectedTags.length === 0){
-                setFormError({...formError, tags: true, tagsErrorMessage: "tags was required"});
+                setFormError(prev => ({...prev, tags: true, tagsErrorMessage: "tags was required"}));
                 return false;
             }else {
-                setFormError({...formError, tags: false, tagsErrorMessage: ""});
+                setFormError(prev => ({...prev, tags: false, tagsErrorMessage: ""}));
                 return true;
             }
         }
@@ -120,6 +123,14 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
         }
     },[modModal])
 
+    const validateAllFields = () => {
+        const titleValid  = onBlurValidation("title", formValue.title);
+        const bodyValid  = onBlurValidation("body", formValue.body);
+        const tagsValid  = handleSelectBlur("");
+
+        return titleValid && bodyValid && tagsValid ;
+    }
+
     // handleDelete for delete post
     const handleDelete = async() => {
         try {
@@ -140,38 +151,42 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
     const handleEditSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         
-        if(!onBlurValidation("title", formValue.title) || !onBlurValidation("body", formValue.body) || !handleSelectBlur("")){
-            return ;
-        }
-        try {
-            const apiUrl = `/edit/${modModal.id}`;
-            const res = await AxiosPosts.put(apiUrl, formValue);
-            if(res.status === 200){
-                triggerModal("edit", false, 0);
+        const isValid = validateAllFields();
+        if(isValid) {
+            try {
+                const apiUrl = `/edit/${modModal.id}`;
+                const res = await AxiosPosts.put(apiUrl, formValue);
+
+                if(res.status === 200){
+                    triggerModal("edit", false, 0);
+                    window.location.reload();
+                }
+            }catch(error){
                 window.location.reload();
+                console.log(error);
             }
-        }catch(error){
-            window.location.reload();
-            console.log(error);
         }
     }
 
     const handleAddSubmit = async(e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         
-        if(!onBlurValidation("title", formValue.title) || !onBlurValidation("body", formValue.body) || formError.tags === true){
-            return ;
-        }
+        const isValid = validateAllFields();
+        
+        if(isValid){
+            try {
+                const res = await AxiosPosts.post("/create", formValue);
 
-        try {
-            const res = await AxiosPosts.post("/create", formValue);
-            if(res.status === 201){
-                triggerModal("add", false, 0);
+                if(res.status === 201){
+                    triggerModal("add", false, 0);
+                    window.location.reload();
+                }
+
+            }catch(error){
+
                 window.location.reload();
+                console.log(error);
             }
-        }catch(error){
-            window.location.reload();
-            console.log(error);
         }
     }
     
