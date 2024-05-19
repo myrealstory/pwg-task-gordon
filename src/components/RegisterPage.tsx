@@ -68,65 +68,67 @@ export const RegisterPage = () => {
         setFormValue({...formValue, role: value});
     }
 
-    const validateForm = (name: string , value: string) => {
-        if(name === "email" && !value){
-            setFormError({...formError, "email": true, emailErrorMessage: "Email is required"});
-        }
-        if(name === "password" && !value){
-            setFormError({...formError, "password": true, passwordErrorMessage: "Password is required"});
-        }
-        
-        if(name === "username" && !value){
-            setFormError({...formError, "username": true, usernameErrorMessage: "Username is required"});
-        }
-        
-        if(name === "role" && value.length === 0){
-            setFormError({...formError, "role": true,
-            roleErrorMessage: "Role is required"
-            });
-
-        }
-
-        if(name === "email"){
-            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            if(!emailRegex.test(value)){
-                setFormError({...formError, "email": true, emailErrorMessage: "Email is invalid"});
-                return false;
-            }else {
-                setFormError({...formError, "email": false, emailErrorMessage: ""});
-                return true;
+    const validateForm = (name: string, value: string) => {
+        let isValid = true;
+    
+        // Email validation
+        if (name === "email") {
+            if (!value) {
+                setFormError(prev => ({ ...prev, email: true, emailErrorMessage: "Email is required" }));
+                isValid = false;
+            } else {
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!emailRegex.test(value)) {
+                    setFormError(prev => ({ ...prev, email: true, emailErrorMessage: "Email is invalid" }));
+                    isValid = false;
+                } else {
+                    setFormError(prev => ({ ...prev, email: false, emailErrorMessage: "" }));
+                }
             }
         }
-
-        if(name === "password"){
-            if(value.length < 6){
-                setFormError({...formError, "password": true, passwordErrorMessage: "Password should be at least 6 characters"});
-                return false;
-            }else {
-                setFormError({...formError, "password": false, passwordErrorMessage: ""});
-                return true;
+    
+        // Password validation
+        if (name === "password") {
+            if (!value) {
+                setFormError(prev => ({ ...prev, password: true, passwordErrorMessage: "Password is required" }));
+                isValid = false;
+            } else if (value.length < 6) {
+                setFormError(prev => ({ ...prev, password: true, passwordErrorMessage: "Password should be at least 6 characters" }));
+                isValid = false;
+            } else {
+                setFormError(prev => ({ ...prev, password: false, passwordErrorMessage: "" }));
             }
         }
-
-        if(name === "username"){
-            const usernameRegex = /^[a-zA-Z0-9]+$/;
-            if(!usernameRegex.test(value)){
-                setFormError({...formError, "username": true, usernameErrorMessage: "Username is invalid"});
-                return false;
-            }else {
-                setFormError({...formError, "username": false, usernameErrorMessage: ""});
-                return true;
+    
+        // Username validation
+        if (name === "username") {
+            if (!value) {
+                setFormError(prev => ({ ...prev, username: true, usernameErrorMessage: "Username is required" }));
+                isValid = false;
+            } else {
+                const usernameRegex = /^[a-zA-Z0-9]+$/;
+                if (!usernameRegex.test(value)) {
+                    setFormError(prev => ({ ...prev, username: true, usernameErrorMessage: "Username is invalid" }));
+                    isValid = false;
+                } else {
+                    setFormError(prev => ({ ...prev, username: false, usernameErrorMessage: "" }));
+                }
             }
         }
-
-        if(name === "role"){
-            if(value){
-                setFormError({...formError, "role": false, roleErrorMessage: ""});
-                return true;
+    
+        // Role validation
+        if (name === "role") {
+            if (!value) {
+                setFormError(prev => ({ ...prev, role: true, roleErrorMessage: "Role is required" }));
+                isValid = false;
+            } else {
+                setFormError(prev => ({ ...prev, role: false, roleErrorMessage: "" }));
             }
         }
-
+    
+        return isValid;
     };
+    
 
     const handleBlur = (e : React.FocusEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -135,6 +137,7 @@ export const RegisterPage = () => {
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        
         const isEmailValid = validateForm("email", formValue.email);
         const isPasswordValid = validateForm("password", formValue.password);
         const isUsernameValid = validateForm("username", formValue.username);

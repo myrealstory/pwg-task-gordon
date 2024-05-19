@@ -41,30 +41,37 @@ export const LoginPage = () => {
     }
 
     const validateForm = (name: string , value: string) => {
-        if(name === "email" && !value){
-            setFormError({...formError, "email": true, emailErrorMessage: "Email is required"});
-            return false;
-        }
-        if(name === "password" && !value){
-            setFormError({...formError, "password": true, passwordErrorMessage: "Password is required"});
-            return false;
-        }
+        let isValid = true;
 
-        if(name === "email"){
-            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            if(!emailRegex.test(value)){
-                setFormError({...formError, "email": true, emailErrorMessage: "Email is invalid"});
-                return false;
+         if (name === "email") {
+            if (!value) {
+                setFormError(prev => ({ ...prev, "email": true, emailErrorMessage: "Email is required" }));
+                isValid = false;
+            } else {
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                if (!emailRegex.test(value)) {
+                    setFormError(prev => ({ ...prev, "email": true, emailErrorMessage: "Email is invalid" }));
+                    isValid = false;
+                } else {
+                    setFormError(prev => ({ ...prev, "email": false, emailErrorMessage: "" }));
+                }
             }
         }
 
-        if(name === "password" && value.length < 6){
-            setFormError({...formError, "password": true, passwordErrorMessage: "Password should be at least 6 characters"});
-            return false;
+        if (name === "password") {
+            if (!value) {
+                setFormError(prev => ({ ...prev, "password": true, passwordErrorMessage: "Password is required" }));
+                isValid = false;
+            } else if (value.length < 6) {
+                setFormError(prev => ({ ...prev, "password": true, passwordErrorMessage: "Password should be at least 6 characters" }));
+                isValid = false;
+            } else {
+                setFormError(prev => ({ ...prev, "password": false, passwordErrorMessage: "" }));
+            }
         }
 
-        setFormError({...formError, [name]: false, emailErrorMessage: "", passwordErrorMessage:""});
-        return true;
+        return isValid;
+
     };
 
     const handleBlur = (e : React.FocusEvent<HTMLInputElement>) => {
@@ -74,8 +81,10 @@ export const LoginPage = () => {
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+
         const isEmailValid = validateForm("email", formValue.email);
         const isPasswordValid = validateForm("password", formValue.password);
+
         if(isEmailValid && isPasswordValid){
             try{
                 const response = await axios.post("/login", formValue);
@@ -92,8 +101,6 @@ export const LoginPage = () => {
                 setMessage({message: error.message, loginStatus: false});
                 setShowModal(true);
             }
-        }else {
-            return false;
         }
     }
 
@@ -136,7 +143,7 @@ export const LoginPage = () => {
 
                 <button
                     type="submit"
-                    className={`bg-primaryYellow text-black w-full rounded-full p-2 mt-7 text-lg ${formError.email || formError.password ? "cursor-none" : "cursor-pointer"}`}
+                    className={`bg-primaryYellow text-black w-full rounded-full p-2 mt-7 text-lg ${formError.email || formError.password ? "cursor-normal pointer-events-none" : "cursor-pointer"}`}
                     disabled={formError.email || formError.password ? true : false}
                     onClick={handleSubmit}
                     >
