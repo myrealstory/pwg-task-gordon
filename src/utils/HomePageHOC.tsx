@@ -19,18 +19,63 @@ const withRoleBaseFetching = (WrappedComponent: React.FC<WrappedComponentProps>)
 
         useEffect(()=>{
 
-            const fetchStoryData = async ()=>{
+            // const fetchStoryData = async ()=>{
+            //     const token = localStorage.getItem("token");
+
+            //     if(!token){
+            //         setModal({type: "error", show: true, message: "Login was Error, Please login again"});
+            //         return;
+            //     }
+
+            //     try {
+            //         const decodedToken = jwtDecode<DecodedToken>(token);
+                    
+            //         const response= await axiosInstance({
+            //             method: "POST",
+            //             url: "/mypost",
+            //             data:{
+            //                 page: currentPage,
+            //                 limit:10,
+            //             }
+            //         });
+
+            //         if(decodedToken.role === "admin"){
+            //             const accountResponse = await axiosAccounts.get("/");
+            //             const adminResponse = await axiosInstance({
+            //                 method: "GET",
+            //                 url: "/",
+            //                 data:{
+            //                     page: currentPage,
+            //                     limit:10,
+            //                 }
+            //             });
+            //             setTotalAccounts(accountResponse.data.accounts.length);
+            //             setTotalPosts(adminResponse.data.totalPosts);
+            //             setAdminMode(true);
+            //         }
+
+            //         setData({...response.data, role: decodedToken.role ? decodedToken.role:"user"});
+
+            //     }catch(error){
+            //         setModal({type: "error", show: true, message: "Login was Error, Please login again"});
+            //     }
+            // }
+            const fetchStoryData = async()=>{
                 const token = localStorage.getItem("token");
 
-                if(!token){
-                    setModal({type: "error", show: true, message: "Login was Error, Please login again"});
+                if(!token) {
+                    setModal({
+                        type: "error",
+                        show: true,
+                        message: "Login was Error, Please login again"
+                    });
                     return;
                 }
 
                 try {
                     const decodedToken = jwtDecode<DecodedToken>(token);
-                    
-                    const response= await axiosInstance({
+
+                    const myPostPromise = axiosInstance({
                         method: "POST",
                         url: "/mypost",
                         data:{
@@ -40,26 +85,39 @@ const withRoleBaseFetching = (WrappedComponent: React.FC<WrappedComponentProps>)
                     });
 
                     if(decodedToken.role === "admin"){
-                        const accountResponse = await axiosAccounts.get("/");
-                        const adminResponse = await axiosInstance({
-                            method: "GET",
-                            url: "/",
-                            data:{
-                                page: currentPage,
-                                limit:10,
-                            }
-                        });
-                        setTotalAccounts(accountResponse.data.accounts.length);
-                        setTotalPosts(adminResponse.data.totalPosts);
-                        setAdminMode(true);
+                        // If the user is an admin, fetch the total number of accounts and total number of posts
+
+                        const [accountResponse, adminResponse] = await Promise.all([
+                            axiosAccounts.get("/"),
+                            axiosInstance({
+                                method: "GET",
+                                url: "/",
+                                data:{
+                                    page: currentPage,
+                                    limit:10,
+                                }
+                            })
+                        ]);
+
+                            const myPostResponse = await myPostPromise;
+                            setTotalAccounts(accountResponse.data.accounts.length);
+                            setTotalPosts(adminResponse.data.totalPosts);
+                            setAdminMode(true);
+
+                            setData({...myPostResponse.data, role: decodedToken.role ? decodedToken.role:"user"});
+                    }else {
+                        const myPostResponse = await myPostPromise;
+                        setData({...myPostResponse.data, role: decodedToken.role ? decodedToken.role:"user"});
+                    
                     }
-
-                    setData({...response.data, role: decodedToken.role ? decodedToken.role:"user"});
-
-                }catch(error){
-                    setModal({type: "error", show: true, message: "Login was Error, Please login again"});
+                } catch (error) {
+                    setModal({
+                        type: "error",
+                        show: true,
+                        message: "Login was Error, Please login again"
+                    });
                 }
-            }
+            };
             fetchStoryData();
 
         },[currentPage,adminMode]);
