@@ -84,6 +84,10 @@ export const LoginPage = () => {
                     setMessage({message: response.data.message, loginStatus: true});
                     setShowModal(true);
                 }
+                if(response.status === 401){
+                    setMessage({message: "Invalid credentials", loginStatus: false});
+                    setShowModal(true);
+                }
             }catch(error : any){
                 setMessage({message: error.message, loginStatus: false});
                 setShowModal(true);
