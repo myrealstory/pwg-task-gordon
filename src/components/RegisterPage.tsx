@@ -52,16 +52,9 @@ export const RegisterPage = () => {
     const [showModal, setShowModal] = useState(false);
 
     const handleInput = ( e:React.ChangeEvent<HTMLInputElement>) => {
-       const {name , value} = e.target;
-       if (name === "email") {
-           setFormValue({...formValue, email: value});
-       }
-       if (name === "password") {
-           setFormValue({...formValue, password: value});
-       }
-       if(name === "username"){
-           setFormValue({...formValue, username: value});
-       }
+        const { name, value } = e.target;
+        setFormValue(prev => ({ ...prev, [name]: value }));
+        validateForm(name, value);
     }
     const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) =>{
         const {value} = e.target;
@@ -135,15 +128,21 @@ export const RegisterPage = () => {
         validateForm(name, value);
     }
 
+    const validateAllFields = (): boolean => {
+        const emailValid = validateForm("email", formValue.email);
+        const passwordValid = validateForm("password", formValue.password);
+        const usernameValid = validateForm("username", formValue.username);
+        const roleValid = validateForm("role", formValue.role);
+    
+        return emailValid && passwordValid && usernameValid && roleValid;
+    };
+
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        
-        const isEmailValid = validateForm("email", formValue.email);
-        const isPasswordValid = validateForm("password", formValue.password);
-        const isUsernameValid = validateForm("username", formValue.username);
-        const isRoleValid = validateForm("role", formValue.role);
 
-        if(isEmailValid && isPasswordValid && isUsernameValid && isRoleValid){
+        const allFieldsValid = validateAllFields();
+
+        if (allFieldsValid) {
             try{
                 
                 const response = await axios.post("/register", formValue);

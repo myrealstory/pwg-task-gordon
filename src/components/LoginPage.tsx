@@ -31,13 +31,9 @@ export const LoginPage = () => {
     const [showModal, setShowModal] = useState(false);
 
     const handleInput = ( e:React.ChangeEvent<HTMLInputElement>) => {
-       const {name , value} = e.target;
-       if (name === "email") {
-           setFormValue({...formValue, email: value});
-       }
-       if (name === "password") {
-           setFormValue({...formValue, password: value});
-       }
+        const { name, value } = e.target;
+        setFormValue(prev => ({ ...prev, [name]: value }));
+        validateForm(name, value);
     }
 
     const validateForm = (name: string , value: string) => {
