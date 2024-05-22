@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 import { PopupContainerType } from "@/types/HomePageTypes";
 import Image from "next/image";
 import ErrorIcon from "@/images/Icon_Close.png";
@@ -178,7 +179,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
                 const res = await AxiosPosts.post("/create", formValue);
 
                 if(res.status === 201){
-                    triggerModal("add", false, 0);
+                    triggerModal("add", false);
                     window.location.reload();
                 }
 
@@ -255,6 +256,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
                             type="text"
                             className={`border-2 ${formError.title ? "border-warning":"border-primaryYellow"}  rounded-full px-3 py-1 w-full focusRing`}
                             name="title"
+                            id="Title"
                             required
                             value={formValue.title}
                             onChange={handleInput}
@@ -267,6 +269,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
                         <textarea
                             className={`border-2 ${formError.body ? "border-warning":"border-primaryYellow"} rounded-lg px-3 py-1 w-full h-36 focusRing`}
                             name="body"
+                            id="Content"
                             required
                             value={formValue.body}
                             onChange={handleInput}
@@ -278,7 +281,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
                         <HeaderInline labelName="Tags"/>
                         <select
                             name="tags"
-                            id="tags"
+                            id="Tags"
                             value=""
                             onChange={(e)=>handleSelect(e.target.value)}
                             onBlur={(e) => handleSelectBlur(e.target.value)}
@@ -293,6 +296,7 @@ export const PopupContainer = ({modModal, modal ,triggerModal,data}: PopupContai
                             {selectedTags.map(tags =>(
                                 <button 
                                     key={tags} 
+                                    role="button"
                                     className="bg-primaryGrey text-black px-4 py-1 rounded-full text-[0.7rem]"
                                     onClick={()=>handleSelectRemove(tags)}
                                     >

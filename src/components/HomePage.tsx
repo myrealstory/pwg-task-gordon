@@ -31,7 +31,7 @@ const HomePage: React.FC<WrappedComponentProps> = ({
         id: 0,
     });
 
-    const triggerModal = (type:ModModalType["type"], show:boolean, id:number) => {
+    const triggerModal = (type:ModModalType["type"], show:boolean, id?:number) => {
         setModModal({type, show, id});
     }
 

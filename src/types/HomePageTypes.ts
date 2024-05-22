@@ -44,6 +44,6 @@ export type DecodedToken = {
 export type PopupContainerType ={
     modModal: ModalType;
     modal: ModalType;
-    triggerModal: (type:ModModalType["type"], show:boolean, userId:number) => void;
+    triggerModal: (type:ModModalType["type"], show:boolean, userId?:number) => void;
     data: StoryData[];
 }
