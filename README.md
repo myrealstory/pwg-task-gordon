@@ -1,12 +1,11 @@
-Dear Wilson,
-I'm so sorry about I missout the scrollbar on doc google when I reading the doc. (its almost same color with BG in web.) BTW, I finished all request please try it when free. I had finished build from this project. Thank you very much! (salute)
+PWG Task was an exam task request by WAION IT。 This project doesn't deploy in any server. But welcome to read doc.
 
-best regard, 
-Gordon.
-2024/5/18
-
-** will delete after Wilson Read **
-
+- HOC design on HomePageHOC for HomePage data fetching
+- PromiseAll achieved fetching data with confirmation
+- Advanced handling for Form
+- CRUD with flexible PopupContainer handling
+- Demo unit test
+  
 
 /* MARK */
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
