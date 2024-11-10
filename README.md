@@ -5,6 +5,7 @@ PWG Task was an exam task request by WAION IT。 This project doesn't deploy in 
 - Advanced handling for Form
 - CRUD with flexible PopupContainer handling
 - Demo unit test
+- password was ready to go, is welcome to download and run on local
   
 
 /* MARK */

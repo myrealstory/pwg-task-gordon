@@ -6,6 +6,7 @@ import axios from "@/lib/axiosAccount"
 import Image from "next/image";
 import CorrectIcon from "@/images/Tick_Circle.png";
 import CloseIcon from "@/images/Icon_Close.png";
+import loader from "@/images/loadingSpin.png";
 
 
 
@@ -28,7 +29,14 @@ export const LoginPage = () => {
         loginStatus: false,
     });
 
-    const [showModal, setShowModal] = useState(false);
+    const [showModal, setShowModal] = useState<{
+        loading: boolean;
+        switch: boolean;
+    }>({
+        loading: false,
+        switch: false,
+    });
+
 
     const handleInput = ( e:React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -77,6 +85,10 @@ export const LoginPage = () => {
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        setShowModal({
+            loading: true,
+            switch: true,
+        });
 
         const isEmailValid = validateForm("email", formValue.email);
         const isPasswordValid = validateForm("password", formValue.password);
@@ -87,15 +99,24 @@ export const LoginPage = () => {
                 if(response.status === 200){
                     localStorage.setItem("token", response.data.token);
                     setMessage({message: response.data.message, loginStatus: true});
-                    setShowModal(true);
+                    setShowModal({
+                        loading: false,
+                        switch: true,
+                    });
                 }
                 if(response.status === 401){
                     setMessage({message: "Invalid credentials", loginStatus: false});
-                    setShowModal(true);
+                    setShowModal({
+                        loading: false,
+                        switch: true,
+                    });
                 }
             }catch(error : any){
                 setMessage({message: error.message, loginStatus: false});
-                setShowModal(true);
+                setShowModal({
+                    loading: false,
+                    switch: true,
+                });
             }
         }
     }
@@ -151,30 +172,36 @@ export const LoginPage = () => {
                 className="text-primaryYellow md:w-[70%] mx-auto bg-transparent p-2 text-center text-xl"
                 onClick={() => window.location.href = "/register"}
             >Create an account</button>
-            {showModal && (
+            {showModal.switch && (
                 <div className="bg-blurBG w-screen h-screen fixed top-0 left-0">
                     <div className=" bg-white w-full max-w-[600px] min-w-[330px] py-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center gap-10 rounded-3xl">
                         <Image 
-                            src={message.loginStatus === true ? CorrectIcon : CloseIcon}
+                            src={showModal.loading === true ? loader :message.loginStatus === true ? CorrectIcon : CloseIcon}
                             width={0}
                             height={0}
                             alt="icon"
                             sizes="100vw"
-                            className="w-[60px] h-auto aspect-square"
+                            className={`w-[60px] h-auto aspect-square ${showModal.loading && "animate-spin"}`}
                         />
-                        <p className="text-xl text-center text-black">{message.message}</p>
-                        <button 
+                        <p className="text-xl text-center text-black">{showModal.loading ? "please wait moment..." :message.message}</p>
+                        {showModal.loading === false && (
+                            <button 
                             className="w-[150px] rounded-full bg-primaryYellow uppercase text-black text-center py-2 text-lg"
                             onClick={() => {
                                 if(message.loginStatus === true){
                                     window.location.href = "/home";
                                 } else{
-                                setShowModal(false)}    
+                                setShowModal({
+                                    loading: false,
+                                    switch: false
+                                })}    
                                 }
                             }
-                        >
+                            >
                             ok
                         </button>
+                            )
+                            }
                     </div>
 
                 </div>
