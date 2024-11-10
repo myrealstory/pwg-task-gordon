@@ -12,8 +12,8 @@ import CloseIcon from "@/images/Icon_Close.png";
 export const LoginPage = () => {
 
     const [formValue, setFormValue] = useState({
-        email: "",
-        password: "",
+        email: "admin@yahoo.com",
+        password: "admin123",
     });
 
     const [formError, setFormError] = useState({
